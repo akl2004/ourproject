@@ -1,157 +1,165 @@
-from django.shortcuts import render, redirect
-from .models import Gender, User
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Student, Academic
 from django.contrib import messages
-from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, redirect
 
 # Create your views here.
 
-def index_gender(request):
-    genders = Gender.objects.all() #SELECT * FROM genders
+def login_student(request):
+    students = Student.objects.all()
+    context = {
+        'students': students,
+    }
+    return render(request, 'student/login.html', context)
+
+def index_student(request):
+    students = Student.objects.all()
+    context = {
+        'students': students,
+    }
+    return render(request, 'student/index.html', context)
+
+def student_sections(request):
+    students = Student.objects.all()
+    context = {
+        'students': students, 
+    }
+    return render(request, 'student/sections.html', context)
+
+def create_student(request):
+    student = Student.objects.all()
 
     context = {
-        'genders': genders
+        'student' : student
     }
 
-    return render(request, 'gender/index.html', context)
+    return render(request, 'student/create.html', context)
 
-def create_gender(request):
-    return render(request, 'gender/create.html')
-
-def store_gender(request):
-    gender = request.POST.get('gender')
-    Gender.objects.create(gender=gender) #INSERT INTO genders(gender) VALUES(gender)
-    messages.success(request, 'Gender successfully saved!')
-    return redirect('/genders')
-
-def show_gender(request, gender_id):
-    gender = Gender.objects.get(pk = gender_id)
-
-    context = {
-        'gender' : gender,
-    }
-
-    return render(request, 'gender/show.html', context)
-
-def edit_gender(request, gender_id):
-    gender = Gender.objects.get(pk = gender_id)
-
-    context = {
-        'gender' : gender,
-    }
-
-    return render(request, 'gender/edit.html', context)
-
-def update_gender(request, gender_id):
-    gender = request.POST.get('gender')
-
-    Gender.objects.filter(pk = gender_id).update(gender=gender)
-    messages.success(request, 'Gender successfully updated!')
-
-    return redirect('/genders')
-
-def delete_gender(request, gender_id):
-    gender = Gender.objects.get(pk = gender_id)
-
-    context = {
-        'gender' : gender,
-    }
-
-    return render(request, 'gender/delete.html', context)
-
-def destroy_gender(request, gender_id):
-    Gender.objects.filter(pk = gender_id).delete() #DELETE FROM genders Where gender_id = gender_id
-    messages.success(request, 'Gender successfully deleted.')
-
-    return redirect('/genders')
-
-def index_user(request):
-    users = User.objects.select_related('gender') #SELECT * FROM users LEFT JOIN genders ON users.gender_id = genders.gender_id
-
-    context = {
-        'users': users,
-    }
-
-    return render(request, 'user/index.html', context)
-
-def create_user(request):
-    genders = Gender.objects.all()
-
-    context = {
-        'genders' : genders
-    }
-
-    return render(request, 'user/create.html', context)
-
-def store_user(request):
-    firstName = request.POST.get('first_name')
-    middleName = request.POST.get('middle_name')
-    lastName = request.POST.get('last_name')
-    age = request.POST.get('age')
-    birthDate = request.POST.get('birth_date')
-    genderId = request.POST.get('gender_id')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    confirmPassword = request.POST.get('confirm_password')
-
-    if password == confirmPassword:
-        encryptedPassword = make_password(password)
-        User.objects.create(first_name=firstName, middle_name=middleName, last_name=lastName, age=age, 
-                            birth_date=birthDate, gender_id=genderId, username=username, password=make_password(password))
-
-        messages.success(request, 'User successfully added!')
-
-        return redirect('/users')
-    else:
-        messages.error(request, 'Password do not match')
-        return redirect('/user/create')
-    
-def show_user(request, user_id):
-    user = User.objects.get(pk = user_id)
-
-    context = {
-        'user' : user,
-    }
-
-    return render(request, 'user/show.html', context)
-
-def edit_user(request, user_id):
-    genders=Gender.objects.all()
-    user = User.objects.select_related('gender').get(pk = user_id)
-
-    context = {
-        'user' : user,
-        'genders' : genders,
-    }
-
-    return render(request, 'user/edit.html', context)
-
-def update_user(request, user_id):
+def store_student(request):
     first_name = request.POST.get('first_name')
     middle_name = request.POST.get('middle_name')
     last_name = request.POST.get('last_name')
     age = request.POST.get('age')
     birth_date = request.POST.get('birth_date')
-    gender_id = request.POST.get('gender_id')
-    username = request.POST.get('username')
-    
-    User.objects.filter(pk=user_id).update(first_name=first_name, middle_name=middle_name, last_name=last_name, age=age, birth_date=birth_date, gender_id=gender_id, username=username)
+    gender = request.POST.get('gender')
+    address = request.POST.get('address')
+    contact = request.POST.get('contact')
 
-    messages.success(request, 'User successfully updated!')
-    return redirect('/users')
+    Student.objects.create(first_name=first_name, middle_name=middle_name, last_name=last_name, age=age, 
+                            birth_date=birth_date, gender=gender, address=address, contact=contact)
     
+    messages.success(request, 'Student successfully added!')
+    return redirect('/student/sections')
+    
+def show_student(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)
+    academics = Academic.objects.filter(student=student)
+    context = {
+        'student': student,
+        'academics': academics,
+    }
+    return render(request, 'student/show.html', context)
 
-def delete_user(request, user_id):
-    user = User.objects.get(pk = user_id)
+def edit_student(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)
+
+    if request.method == 'POST':
+        student.first_name = request.POST.get('first_name')
+        student.middle_name = request.POST.get('middle_name')
+        student.last_name = request.POST.get('last_name')
+        student.age = request.POST.get('age')
+        student.birth_date = request.POST.get('birth_date')
+        student.gender = request.POST.get('gender')
+        student.address = request.POST.get('address')
+        student.contact = request.POST.get('contact')
+        student.save()
+
+        messages.success(request, 'Student information updated successfully!')
+        return redirect('/student/sections')
 
     context = {
-        'user' : user,
+        'student': student,
     }
 
-    return render(request, 'user/delete.html', context)
+    return render(request, 'student/edit.html', context)
+    
 
-def destroy_user(request, user_id):
-    User.objects.filter(pk = user_id).delete() #DELETE FROM genders Where gender_id = gender_id
-    messages.success(request, 'User successfully deleted.')
+def delete_student(request, student_id):
+    student = Student.objects.get(pk = student_id)
 
-    return redirect('/users')
+    context = {
+        'student' : student,
+    }
+
+    return render(request, 'student/delete.html', context)
+
+def destroy_student(request, student_id):
+    Student.objects.filter(pk = student_id).delete()
+    messages.success(request, 'Student successfully deleted.')
+
+    return redirect('/student/sections')
+
+def add_academic(request, student_id):
+    student = get_object_or_404(Student, pk=student_id)
+    if request.method == 'POST':
+        course = request.POST.get('course')
+        year_level = request.POST.get('year_level')
+        section = request.POST.get('section')
+        semester = request.POST.get('semester')
+        ay = request.POST.get('ay')
+        classification = request.POST.get('classification')
+        id_number = request.POST.get('id_number')
+        
+        Academic.objects.create(student=student, course=course, year_level=year_level, section=section, 
+                                semester=semester, ay=ay, classification=classification, id_number=id_number)
+        messages.success(request, 'Academic information added successfully!')
+        return redirect('show_student', student_id=student.student_id)
+    
+    context = {
+        'student': student
+    }
+    return render(request, 'student/academic/add.html', context)
+
+def edit_academic(request, academic_id):
+    academic = get_object_or_404(Academic, pk=academic_id)
+    student = academic.student
+    
+    if request.method == 'POST':
+        academic.id_number = request.POST.get('id_number')
+        academic.course = request.POST.get('course')
+        academic.year_level = request.POST.get('year_level')
+        academic.section = request.POST.get('section')
+        academic.semester = request.POST.get('semester')
+        academic.ay = request.POST.get('ay')
+        academic.classification = request.POST.get('classification')
+        academic.save()
+        
+        messages.success(request, 'Academic information updated successfully!')
+        return redirect('show_student', student_id=student.student_id)
+    
+    context = {
+        'academic': academic,
+        'student': student,
+    }
+    return render(request, 'student/academic/edit.html', context)
+
+def delete_academic(request, academic_id):
+    academic = get_object_or_404(Academic, pk=academic_id)
+    student_id = academic.student.pk
+    if request.method == 'POST':
+        academic.delete()
+        messages.success(request, 'Academic information deleted successfully!')
+        return redirect('show_student', student_id=student_id)
+    
+    context = {
+        'academic': academic
+    }
+    return render(request, 'student/academic/delete.html', context)
+
+def view_student_report(request, student_id):
+    student = Student.objects.get(pk=student_id)
+    academics = Academic.objects.filter(student=student)
+    context = {
+        'student': student,
+        'academics': academics
+    }
+    return render(request, 'student/academic/view_student_report.html', context)

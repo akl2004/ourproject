@@ -1,0 +1,12 @@
+{% extends "layout/base.html" %} {% block title %} Delete Student | Django Crud
+App {% endblock title %} {% block content %}
+<h1>Delete Student</h1>
+<p>Are you sure you want to delete this student named "{{ student.first_name }}"</p>
+
+<form action="/student/destroy/{{ student.student_id }}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger float-end">Yes</button>
+
+  <a href="/student/sections" class="btn btn-secondary float-end">No</a>
+</form>
+{% endblock content %}

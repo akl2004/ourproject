@@ -1,35 +1,45 @@
 from django.db import models
 
-# Create your models here.
+class Student(models.Model):
+    GENDER_CHOICES = (
+        ('N/A', 'N/A'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
 
-class Gender(models.Model):
-    gender_id = models.BigAutoField(primary_key=True, blank=False) #BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY
-    gender = models.CharField(max_length=55, blank=False) #VARCHAR(55)
-    date_created = models.DateTimeField(auto_now_add=True) #TIMSTAMP DEFAULT CURRENT_TIMESTAMP
-    date_updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'genders'
-
-    
-    def __str__(self):
-        return self.gender
-
-class User(models.Model):
-    user_id = models.BigAutoField(primary_key=True, blank=False)
+    student_id = models.BigAutoField(primary_key=True, blank=False)  # BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY
     first_name = models.CharField(max_length=55, blank=False)
     middle_name = models.CharField(max_length=55, blank=True)
     last_name = models.CharField(max_length=55, blank=False)
-    age = models.IntegerField(blank=False) #INT NOT NULL
-    birth_date = models.DateField(blank=False) #DATE NOT NULL
-    address = models.CharField(max_length=55, blank=False)
-    gender = models.ForeignKey(Gender, on_delete=models.CASCADE)
-    guardian_name = models.CharField(max_length=55, blank=False)
-    contact = models.IntegerField(blank=False) #INT NOT NULL
-    username = models.CharField(max_length=55, blank=False)
-    password = models.CharField(max_length=255, blank=False)
-    date_created = models.DateTimeField(auto_now_add=True) #TIMSTAMP DEFAULT CURRENT_TIMESTAMP
+    age = models.IntegerField(blank=False)  # INT NOT NULL
+    birth_date = models.DateField(blank=False)  # DATE NOT NULL
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
+    address = models.CharField(max_length=255, blank=False)
+    contact = models.CharField(max_length=13, blank=False)
+    date_created = models.DateTimeField(auto_now_add=True)  # TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     date_updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'users'
+        db_table = 'students'
+
+class Academic(models.Model):
+    CLASSIFICATION_CHOICES = (
+        ('N/A', 'N/A'),
+        ('DROPPED', 'DROPPED'),
+        ('REGULAR', 'REGULAR'),
+        ('IRREGULAR', 'IRREGULAR'),
+    )
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='academics')
+    id_number = models.CharField(max_length=12, blank=False)
+    course = models.CharField(max_length=55, blank=False)
+    year_level = models.IntegerField(blank=False)  # INT NOT NULL
+    section = models.CharField(max_length=55, blank=False)
+    semester = models.CharField(max_length=55, blank=False)
+    ay = models.CharField(max_length=9, blank=False)  # Adjusted to '9' to accommodate '2023-2024' format
+    classification = models.CharField(max_length=10, choices=CLASSIFICATION_CHOICES)
+
+    class Meta:
+        db_table = 'academic'
+
+        

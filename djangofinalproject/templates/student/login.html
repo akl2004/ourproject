@@ -1,0 +1,242 @@
+{% extends "layout/base.html" %} {% block title %} BSIT 2 - Student Information | Django Crud
+App {% endblock title %} {% block content %}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: url('/static/images/background_cover.png') no-repeat center center fixed;
+        background-size: cover;
+        height: 100%;
+    }
+
+    .container {
+        {% comment %} position: relative; {% endcomment %}
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    .header, .footer {
+        position: absolute;
+        width: 100%;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 10px;
+        background-color: #0a1a6b;
+    }
+
+    .header {
+        top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+
+    .header .logo {
+        height: 50px;
+        margin-right: 10px;
+        z-index: 1;
+        border-radius: 50%;
+    }
+
+    .header h1 {
+        font-size: 20px;
+        margin: 0;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    .yellow-overlay_1, .yellow-overlay_2 {
+        position: absolute;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+    }
+
+    .yellow-overlay_1 {
+        background: url('/static/images/yellow_top_layer.png') no-repeat center center;
+        width: 13%;
+        height: 65%;
+        z-index: 3;
+    }
+
+    .yellow-overlay_2 {
+        background: url('/static/images/yellow_bottom_layer.png') no-repeat center center;
+        margin-left: -55px;
+        margin-top: -100px;
+        width: 25%;
+        height: 90%;
+        z-index: 2;
+    }
+
+    .footer {
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .footer p {
+        margin: 2px;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .login-box {
+        position: relative;
+        z-index: 2;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        margin: 0 auto;
+    }
+
+    .login-box h2 {
+        margin-bottom: 10px;
+        margin-top: 0;
+        font-size: 24px;
+        text-align: left;
+    }
+
+    .login-box p {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .login-box hr {
+        margin: 10px 0;
+        border: 0;
+        border-top: 1px solid #ccc;
+    }
+
+    .login-box label {
+        display: block;
+        margin: 10px 0 5px;
+        text-align: left;
+    }
+
+    .login-box input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .login-box input::placeholder {
+        color: #848484;
+        font-weight: bold;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .forgot-password {
+        text-decoration: underline;
+        color: #000;
+    }
+
+    .login-box button {
+        width: 30%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #0A1A6B;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .login-box button:hover {
+        background-color: #0056b3;
+    }
+
+    .password-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .password-container input {
+        flex: 1;
+    }
+
+    .password-container .toggle-password {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .header h1 {
+            font-size: 18px;
+        }
+
+        .login-box h2 {
+            font-size: 20px;
+        }
+
+        .login-box button {
+            width: 45%;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="yellow-overlay_1"></div> 
+    <div class="yellow-overlay_2"></div>
+    <div class="overlay"></div>
+    <div class="header">
+        <img src="/static/images/logo.jpg" alt="Filamer Christian University Logo" class="logo">
+        <h1>FILAMER INFORMATION SYSTEM</h1>
+    </div>
+    <div class="login-box">
+        <h2>WELCOME!</h2>
+        <hr>
+        <p>Please enter your details to log in.</p>
+        <form action="/student/index" method="post"> <b></b>
+            {% csrf_token %}
+            <label for="idNumber">ID NO.</label>
+            <input type="text" id="idNumber" name="idNumber" placeholder="Please enter your ID number" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Please enter your password" required>
+            <div class="actions">
+                <a href="#" class="forgot-password">Forgot Password</a>
+                <button type="submit">Log in</button>
+            </div>
+        </form>
+    </div>
+    <div class="footer">
+        <p>IT Elective 2</p>
+        <p>2023-2024</p>
+    </div>
+</div>
+
+
+{% endblock content %}

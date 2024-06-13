@@ -1,0 +1,212 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Student Report | Django CRUD App{% endblock title %}
+
+{% block content %}
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        height: 100%;
+    }
+
+    .header {
+        background-color: #0a1a6b;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .section-title {
+        background-color: #005f8e;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+
+    .grid-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #f9f9f9;
+        width: 100%;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background-color: #0a1a6b;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .rounded {
+        border-radius: 50%;
+    }
+
+    .personal-info, .academic-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+
+    .personal-info .form-group, .academic-info .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+<div class="header">
+    FILAMER INFORMATION SYSTEM
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="section-title">STUDENT REPORT</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="section-title">PERSONAL INFORMATION</div>
+                <div class="card-body personal-info">
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" class="form-control" value="{{ student.last_name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>First Name:</label>
+                        <input type="text" class="form-control" value="{{ student.first_name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Middle Name:</label>
+                        <input type="text" class="form-control" value="{{ student.middle_name }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Age:</label>
+                        <input type="text" class="form-control" value="{{ student.age }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <input type="text" class="form-control" value="{{ student.gender }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Birth Date:</label>
+                        <input type="text" class="form-control" value="{{ student.birth_date }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Address:</label>
+                        <input type="text" class="form-control" value="{{ student.address }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Number:</label>
+                        <input type="text" class="form-control" value="{{ student.contact }}" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="section-title">ACADEMIC INFORMATION</div>
+                <div class="card-body academic-info">
+                    {% for academic in academics %}
+                    <div class="form-group">
+                        <label>Course:</label>
+                        <input type="text" class="form-control" value="{{ academic.course }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Year Level:</label>
+                        <input type="text" class="form-control" value="{{ academic.year_level }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Section:</label>
+                        <input type="text" class="form-control" value="{{ academic.section }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Semester:</label>
+                        <input type="text" class="form-control" value="{{ academic.semester }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Academic Year:</label>
+                        <input type="text" class="form-control" value="{{ academic.ay }}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Classification:</label>
+                        <input type="text" class="form-control" value="{{ academic.classification }}" readonly>
+                    </div>
+                    {% empty %}
+                    <p>No academic information available for this student.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <a href="/student/sections" class="btn btn-secondary">Back to List</a>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="/static/images/cat.jpg" class="img-fluid rounded" alt="Student Photo">
+                    <h6 class="mt-3">Student</h6>
+                    {% for academic in academics %}
+                    <p>{{ academic.id_number }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

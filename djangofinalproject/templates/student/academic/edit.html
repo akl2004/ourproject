@@ -1,0 +1,139 @@
+{% extends "layout/base.html" %}
+
+{% block title %}Edit Academic Information | Django CRUD App{% endblock title %}
+
+{% block content %}
+
+<style>
+    body {
+        background-color: #EDEDED;
+    }
+    .container {
+        margin-top: 50px;
+        width: 50%;
+        height: 100%
+    }
+    .card {
+        border-radius: 15px;
+        overflow: hidden;
+        background-color: #D2DDE2;
+        border-color: #100A58;
+        border-width: 3px;;
+    }
+    .card-header {
+        background-color: #100A58;
+        color: white;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        display: flex;
+        justify-content: space-between;
+        border-radius: 15px 15px 0 0;
+    }
+    .form-group {
+        width: 70%;
+        margin: 0 auto;
+        padding: 10px;
+    }
+    .form-group label {
+        font-weight: bold;
+        font-size: 17px;
+    }
+    .card-header img{
+        width: 7%; 
+        height: 7%;
+        float: right;
+        cursor: pointer;
+    }
+    .required {
+        color: red;
+    }
+    .btn-cancel {
+        background-color: #FFF848;
+        border-color: black;
+        border-width: 2px;
+        margin-right: 10px;
+        margin-top: 15px;
+    }
+    .btn-save {
+        background-color: #54B0F3;
+        color: rgb(0, 0, 0);
+        border-color: black;
+        border-width: 2px;
+        margin-right: 10px;
+        margin-top: 15px;
+    }
+    .btn-cancel:hover {
+        background-color: #ffc743;
+        color:#404040;
+    }
+    .btn-save {
+        background-color: #6154F3;
+        border-color: black;
+        border-width: 2px;
+    }
+    .btn-save:hover {
+        background-color: #1306a7;
+        color: #6154F3;
+    }
+</style>
+
+<form method="POST" action="/academic/edit/{{ student.student_id }}">
+    {% csrf_token %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                EDIT ACADEMIC INFORMATION
+                <img src="/static/images/material-symbols--info-outline.png" alt="Icons">
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="id_number" class="form-label">Course:</label>
+                        <input type="text" class="form-control" id="id_number" name="id_number" value="{{ academic.id_number }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="course" class="form-label">Course:</label>
+                        <input type="text" class="form-control" id="course" name="course" value="{{ academic.course }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="year_level" class="form-label">Year Level:</label>
+                        <input type="number" class="form-control" id="year_level" name="year_level" value="{{ academic.year_level }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="section" class="form-label">Section:</label>
+                        <input type="text" class="form-control" id="section" name="section" value="{{ academic.section }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="semester" class="form-label">Semester:</label>
+                        <input type="text" class="form-control" id="semester" name="semester" value="{{ academic.semester }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ay" class="form-label">AY:</label>
+                        <input type="text" class="form-control" id="ay" name="ay" value="{{ academic.ay }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="classification" class="form-label">Classification:</label>
+                        <select class="form-control" id="classification" name="classification" required>
+                            <option value="N/A" {% if academic.classification == 'N/A' %}selected{% endif %}>N/A</option>
+                            <option value="DROPPED" {% if academic.classification == 'DROPPED' %}selected{% endif %}>DROPPED</option>
+                            <option value="REGULAR" {% if academic.classification == 'REGULAR' %}selected{% endif %}>REGULAR</option>
+                            <option value="IRREGULAR" {% if academic.classification == 'IRREGULAR' %}selected{% endif %}>IRREGULAR</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a href="/student/show/{{ student.student_id }}">
+                          <button type="button" class="btn btn-cancel me-2">CANCEL</button>
+                        </a>
+                          <button type="submit" class="btn btn-save">SAVE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}
+
+

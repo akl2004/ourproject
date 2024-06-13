@@ -1,0 +1,109 @@
+{% extends "layout/base.html" %} {% block title %} BSIT 2 - Student Information | Django Crud
+App {% endblock title %} {% block content %}
+
+<style>
+  body {
+      background-color: #D2DDE2;
+  }
+  header {
+      background: linear-gradient(90deg, #07005A, #0086C0);
+      color: white;
+      padding: 10px 20px;
+      text-align: start;
+      display: flex;
+      align-items: flex-start;
+  }
+  header img {
+      width: 30px;
+      height: auto;
+      border-radius: 50%;
+      margin-right: 10px;
+  }
+  .dashboard .btn {
+      background: linear-gradient(90deg, #0C055C, #6154F3);
+      color: white;
+      padding: 10px 0;
+      font-size: 1rem;
+      width: 100%;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 5px; 
+  }
+  .dashboard .btn span {
+      display: block;
+      font-size: 0.8rem;
+      color: white;
+  }
+  .dashboard .btn:hover {
+      background-color: #000099;
+  }
+  
+  #Overview {
+      background-color: #3D6073;
+  }
+  .card-body {
+      color: white;
+  }
+  .overview-container {
+      display: flex;
+      align-items: center;
+  }
+  .overview-container img {
+      max-width: 300px;
+      height: auto;
+      margin-right: 20px;
+  }
+  .overview-container .card-body {
+      flex: 1;
+  }
+  .container-rect {
+      background-color: #3D6073;
+      padding: 20px;
+      margin-bottom: 30px;
+      margin-top: 30px;
+  }
+</style>
+
+<header>
+  <img src="/static/images/logo.jpg" alt="Logo">
+  <h4>FILAMER INFORMATION SYSTEM</h4>
+</header>
+<div class="container mt-4">
+  <main class="mt-4">
+      <h6>Overview</h6>
+      <div class="container-rect">
+          <div class="card mb-4" id="Overview">
+              <div class="overview-container">
+                  <img src="/static/images/fcu.jpg" class="card-img" alt="Filamer Christian University">
+                  <div class="card-body">
+                      <h2 class="card-title">Filamer Christian University</h2>
+                      <p class="card-text">Filamer Christian University (FCU) is a private Baptist Christian university located in Roxas, Capiz. It is affiliated with the Convention of Philippine Baptist Churches.</p>
+                      <p class="card-text">With a legacy of more than 100 years of Christian education, the school remains steadfast in its commitment to provide holistic and relevant education to its clienteles.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <section class="dashboard text-left">
+          <p class="font-weight-bold">Faculty &gt;&gt; Dashboard</p>
+          <div class="row">
+              <div class="col-md-3 mb-3">
+                  <a href="/student/sections" class="btn btn-primary btn-block"><span>BSIT</span> SECTION A</a>
+              </div>
+              <div class="col-md-3 mb-3">
+                  <a href="/student/sections" class="btn btn-primary btn-block"><span>BSIT</span> SECTION B</a>
+              </div>
+              <div class="col-md-3 mb-3">
+                  <a href="/student/sections" class="btn btn-primary btn-block"><span>BSIT</span> SECTION C</a>
+              </div>
+              <div class="col-md-3 mb-3">
+                  <a href="/student/sections" class="btn btn-primary btn-block"><span>BSIT</span> SECTION D</a>
+              </div>
+          </div>
+      </section>
+  </main>
+</div>
+
+{% endblock content %}

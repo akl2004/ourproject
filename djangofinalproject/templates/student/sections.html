@@ -1,0 +1,211 @@
+{% extends "layout/base.html" %}
+{% block title %} List of student | Django Crud App {% endblock title %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #D2DDE2;
+  }
+  .header {
+    background: linear-gradient(90deg, #07005A, #0086C0);
+    color: white;
+    padding: 10px 20px;
+    text-align: start;
+    display: flex;
+    align-items: flex-start;
+  }
+  .header img {
+    width: 30px;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .breadcrumbs {
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .list-header {
+    margin: 20px 0;
+    border: 2px solid #5e35b1;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: white;
+  }
+  .search-bar {
+    margin: 20px 0;
+  }
+  .personal-info-table {
+    background-color: white;
+    border-radius: 10px;
+    padding: 5px;
+  }
+  .table th {
+    background-color: white;
+    color: black;
+    font-size: 14px;
+  }
+  .back-button {
+    margin-top: 20px;
+  }
+  .back-button .btn-secondary {
+    background-color: #5AA2B2;
+    color: white;
+    border: none;
+  }
+  .btn-primary {
+    background-color: #07236C;
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    height: 35px;
+    margin: 5px;
+  }
+  .image-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .image-section img {
+    max-width: 200px;
+    height: auto;
+  }
+  .title-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .personal-info-container .personal-info-title {
+    background-color: #5F5A99;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+  }
+  .contact-number {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdown-checkbox {
+    display: none;
+  }
+  .dropdown-checkbox:checked + .dropdown-btn + .dropdown-content {
+    display: block;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  .dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  .dropdown-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .dropdown-btn img {
+    width: 20px;
+    height: 20px;
+  }
+</style>
+
+<div class="header">
+  <img src="/static/images/logo.jpg" alt="Logo">
+  <h4>FILAMER INFORMATION SYSTEM</h4>
+</div>
+
+<div class="container">
+  <div class="breadcrumbs">
+    You are Here: Section A >> List of Students
+  </div>
+
+  <div class="list-header">
+    <div class="image-section">
+      <div>
+        <h2>LIST OF STUDENTS</h2>
+        <p>BSIT A</p>
+      </div>
+      <div>
+        <img src="/static/images/pic2.gif" alt="Image" class="img-fluid">
+      </div>
+    </div>
+  </div>
+
+  {% include "include/messages.html" %}
+
+  <div class="search-bar d-flex justify-content-between">
+    <input type="text" class="form-control" placeholder="Search here" style="max-width: 80%;">
+    <a href="/student/create">
+      <button class="btn btn-primary">ADD</button>
+    </a>
+  </div>
+
+  <div class="personal-info-table personal-info-container">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="9" class="personal-info-title">PERSONAL INFORMATION</th>
+        </tr>
+        <tr>
+          <th class="name">LAST NAME</th>
+          <th class="name">FIRST NAME</th>
+          <th class="name">MIDDLE NAME</th>
+          <th class="age">AGE</th>
+          <th class="name">GENDER</th>
+          <th class="name">DATE OF BIRTH</th>
+          <th class="address">ADDRESS</th>
+          <th class="name">CONTACT NUMBER</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td>{{ student.last_name }}</td>
+          <td>{{ student.first_name }}</td>
+          <td>{{ student.middle_name }}</td>
+          <td>{{ student.age }}</td>
+          <td>{{ student.gender }}</td>
+          <td>{{ student.birth_date }}</td>
+          <td>{{ student.address }}</td>
+          <td>{{ student.contact }}</td>
+          <td class="dropdown">
+            <input type="checkbox" id="dropdown-checkbox-{{ student.student_id }}" class="dropdown-checkbox">
+            <label for="dropdown-checkbox-{{ student.student_id }}" class="dropdown-btn">
+              <img src="/static/images/dots.png" alt="Dots">
+            </label>
+            <div class="dropdown-content">
+              <a href="/student/show/{{ student.student_id }}">View</a>
+              <a href="/student/edit/{{ student.student_id }}">Edit</a>
+              <a href="/student/delete/{{ student.student_id }}">Delete</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="back-button">
+    <a href="/student">
+      <button href="/student" class="btn btn-secondary">&lt;&lt; BACK</button>
+    </a>
+  </div>
+</div>
+
+{% endblock content %}

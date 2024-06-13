@@ -1,0 +1,141 @@
+{% extends "layout/base.html" %} {% block title %} Create User | Django Crud App
+{% endblock title %} 
+
+{% block content %} 
+
+{% include "include/messages.html" %}
+
+<style>
+  body {
+      background-color: #EDEDED;
+  }
+  .container {
+      margin-top: 50px;
+      width: 50%;
+      height: 100%
+  }
+  .card {
+      border-radius: 15px;
+      overflow: hidden;
+      background-color: #D2DDE2;
+      border-color: #100A58;
+      border-width: 3px;;
+  }
+  .card-header {
+      background-color: #100A58;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      display: flex;
+      justify-content: space-between;
+      border-radius: 15px 15px 0 0;
+  }
+  .form-group {
+      width: 70%;
+      margin: 0 auto;
+      padding: 10px;
+  }
+  .form-group label {
+      font-weight: bold;
+      font-size: 17px;
+  }
+  .card-header img{
+      width: 7%; 
+      height: 7%;
+      float: right;
+      cursor: pointer;
+  }
+  .required {
+      color: red;
+  }
+  .btn-cancel {
+      background-color: #FFF848;
+      border-color: black;
+      border-width: 2px;
+      margin-right: 10px;
+      margin-top: 15px;
+  }
+  .btn-save {
+      background-color: #54B0F3;
+      color: rgb(0, 0, 0);
+      border-color: black;
+      border-width: 2px;
+      margin-right: 10px;
+      margin-top: 15px;
+  }
+  .btn-cancel:hover {
+      background-color: #ffc743;
+      color:#404040;
+  }
+  .btn-save {
+      background-color: #6154F3;
+      border-color: black;
+      border-width: 2px;
+  }
+  .btn-save:hover {
+      background-color: #1306a7;
+      color: #6154F3;
+  }
+</style>
+
+<form action="/student/store" method="post">
+  {% csrf_token %}
+  <div class="container">
+  <div class="card">
+      <div class="card-header">
+          ADD STUDENT 
+          <img src="/static/images/material-symbols--info-outline.png" alt="Icons">
+      </div>
+      <div class="card-body">
+          <form>
+              <div class="form-group">
+                  <label for="last_name">Last Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="last_name" name="last_name" required>
+              </div>
+              <div class="form-group">
+                  <label for="first_name">First Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="first_name" name="first_name" required>
+              </div>
+              <div class="form-group">
+                  <label for="middle_name">Middle Name <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="(input N/A if not applicable)" required>
+              </div>
+              <div class="form-group">
+                  <label for="age">Age <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="age" name="age" required>
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender</label> <br>
+                <select class="form-control" id="gender" name="gender">
+                  <option value="N/A">N/A</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="form-group">
+                  <label for="birth_date" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                  <input type="date" id="birth_date" name="birth_date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                  <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                  <input type="text" id="address" name="address" class="form-control" placeholder="Barangay/Municipality/Province" required>
+              </div>
+              <div class="form-group">
+                  <label for="contact" class="form-label">Contact Number <span class="text-danger">*</span></label>
+                  <input type="text" id="contact" name="contact" class="form-control" placeholder="09" required>
+              </div>
+              <div class="d-flex justify-content-end">
+                  <a href="/student/sections">
+                    <button type="button" class="btn btn-cancel me-2">CANCEL</button>
+                  </a>
+                  <button type="submit" class="btn btn-save">SAVE</button>
+              </div>
+          </form>
+      </div>
+  </div>
+  </div>
+</form>
+
+{% endblock content %}
+
